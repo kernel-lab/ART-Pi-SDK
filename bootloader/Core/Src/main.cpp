@@ -25,16 +25,20 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "w25q64.h"
 
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+typedef  void (*pFunction)(void);
 
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define VECT_TAB_OFFSET      0x00000000UL
+#define APPLICATION_ADDRESS  0x90000000UL
 
 /* USER CODE END PD */
 
@@ -46,6 +50,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+Flash_T w25q64 = Flash_T();
 
 /* USER CODE END PV */
 
@@ -53,6 +58,7 @@
 void SystemClock_Config(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
+pFunction JumpToApplication;
 
 /* USER CODE END PFP */
 
@@ -96,6 +102,26 @@ int main(void)
   MX_UART4_Init();
   MX_QUADSPI_Init();
   /* USER CODE BEGIN 2 */
+  printf("Starting BootLoader...\r\n");
+  w25q64.init();
+  HAL_MPU_Disable();
+  w25q64.memory_map();
+
+	SysTick->CTRL = 0;
+	SysTick->LOAD = 0;
+	SysTick->VAL = 0;
+	for (uint8_t i = 0; i < 8; i++) {
+		NVIC->ICER[i]=0xFFFFFFFF;
+		NVIC->ICPR[i]=0xFFFFFFFF;
+	}
+	__set_CONTROL(0);
+	__disable_irq();
+	__set_PRIMASK(1);
+
+  printf("Starting Jump App...\r\n");
+	JumpToApplication = (pFunction) (*(__IO uint32_t*)(APPLICATION_ADDRESS + 4));
+	__set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS);
+	JumpToApplication();
 
   /* USER CODE END 2 */
 
@@ -104,9 +130,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    printf("Systerm Runing!\r\n");
+    printf("Jump App Failed!\r\n");
     Led_Blink(LED_RED, 3);
-    Led_Blink(LED_BLUE, 3);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
