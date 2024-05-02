@@ -26,6 +26,7 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
+#include <stdint.h>
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
@@ -33,12 +34,18 @@ extern "C" {
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
+typedef enum Led_Number_Type {
+  LED_RED  = 0,
+  LED_BLUE = 1,
+  LED_COUNT
+} led_number_t;
 
 /* USER CODE END Private defines */
 
 void MX_GPIO_Init(void);
 
 /* USER CODE BEGIN Prototypes */
+void Led_Blink(led_number_t led_num, uint16_t times);
 
 /* USER CODE END Prototypes */
 

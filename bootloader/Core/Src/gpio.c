@@ -29,6 +29,17 @@
 /* Configure GPIO                                                             */
 /*----------------------------------------------------------------------------*/
 /* USER CODE BEGIN 1 */
+#define LED_NUM   (2)
+
+typedef struct Led_Config_Type {
+  GPIO_TypeDef * port;
+  uint16_t pin;
+} led_config_t;
+
+static const led_config_t led_config[LED_NUM] = {
+  {LED_RED_GPIO_Port,  LED_RED_Pin },
+  {LED_BLUE_GPIO_Port, LED_BLUE_Pin},
+};
 
 /* USER CODE END 1 */
 
@@ -72,5 +83,23 @@ void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 2 */
+/**
+ * @brief led blink driver
+ * @param led_num -> LED_RED or LED_BLUE
+ *        times -> led blink times
+ * @retval none
+*/
+void Led_Blink(led_number_t led_num, uint16_t times)
+{
+  if (led_num >= LED_COUNT)
+    return;
+
+  for (uint16_t i = 0; i < times; i++) {
+    HAL_Delay(50);
+    HAL_GPIO_TogglePin(led_config[led_num].port, led_config[led_num].pin);
+    HAL_Delay(50);
+    HAL_GPIO_TogglePin(led_config[led_num].port, led_config[led_num].pin);
+  }
+}
 
 /* USER CODE END 2 */
