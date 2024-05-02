@@ -255,7 +255,7 @@ void Flash_T::init(void)
 	m_set_quad_mode();
 	m_id = m_readJEDECID();
 	if (m_id == 0xef16) {
-		LEDB_Blink(5);
+		Led_Blink(LED_BLUE, 3); // if read flash id success, led blue blink
 	}
 }
 
@@ -400,6 +400,6 @@ void Flash_T::memory_map(void)
   	cfg.TimeOutPeriod     = 0;
  
 	if (HAL_QSPI_MemoryMapped(&hqspi, &cmd, &cfg) != HAL_OK) {
-		LEDR_Blink(10); //if memory map error, blink to indicate
+		Led_Blink(LED_RED, 3); //if memory map error, blink to indicate
 	}
 }
