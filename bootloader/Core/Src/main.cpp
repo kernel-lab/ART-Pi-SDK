@@ -105,6 +105,8 @@ int main(void)
   {
     /* USER CODE END WHILE */
     printf("Systerm Runing!\r\n");
+    Led_Blink(LED_RED, 3);
+    Led_Blink(LED_BLUE, 3);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
