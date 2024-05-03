@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include <stdio.h>
+#include <stdint.h>
 #include "main.h"
 #include "quadspi.h"
 #include "usart.h"
@@ -31,14 +32,12 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-typedef  void (*pFunction)(void);
+typedef void (*pFunction)(void);
 
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define VECT_TAB_OFFSET      0x00000000UL
-#define APPLICATION_ADDRESS  0x90000000UL
 
 /* USER CODE END PD */
 
@@ -58,12 +57,41 @@ Flash_T w25q64 = Flash_T();
 void SystemClock_Config(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
-pFunction JumpToApplication;
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+static void JumpToApp(void)
+{
+  printf("Starting Jump Application...\r\n");
+  uint32_t app_addr = QSPI_BASE;
+  pFunction JumpApp = (pFunction)(*(__IO uint32_t *)(app_addr + 4));
+
+  /* close and reset Systick */
+  SysTick->CTRL = 0;      // disable systick
+  SysTick->LOAD = 0;      // clear loaded value
+  SysTick->VAL  = 0;      // clear current systick value
+
+  /* clear all NVIC Enable and Pending registers */
+  for (uint8_t i = 0; i < 8; i++) {
+    NVIC->ICER[i] = 0xFFFFFFFF;
+    NVIC->ICPR[i] = 0xFFFFFFFF;
+  }
+
+  /* priviage mode */
+  __set_CONTROL(0);
+
+  /* disable global interrupt */
+  __disable_irq();
+
+  /* blocks all interrupts apart from the non-maskable interrupt (NMI) and the hard fault exception */
+  __set_PRIMASK(1);
+
+  __set_MSP(app_addr);
+
+  JumpApp();
+}
 
 /* USER CODE END 0 */
 
@@ -106,23 +134,7 @@ int main(void)
   w25q64.init();
   HAL_MPU_Disable();
   w25q64.memory_map();
-
-	SysTick->CTRL = 0;
-	SysTick->LOAD = 0;
-	SysTick->VAL = 0;
-	for (uint8_t i = 0; i < 8; i++) {
-		NVIC->ICER[i]=0xFFFFFFFF;
-		NVIC->ICPR[i]=0xFFFFFFFF;
-	}
-	__set_CONTROL(0);
-	__disable_irq();
-	__set_PRIMASK(1);
-
-  printf("Starting Jump App...\r\n");
-	JumpToApplication = (pFunction) (*(__IO uint32_t*)(APPLICATION_ADDRESS + 4));
-	__set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS);
-	JumpToApplication();
-
+  JumpToApp();
   /* USER CODE END 2 */
 
   /* Infinite loop */
