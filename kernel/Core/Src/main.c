@@ -57,6 +57,22 @@ static void MPU_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+static uint8_t clear_nvic(void)
+{
+  /* clear all NVIC Enable and Pending registers */
+	for (uint8_t i = 0; i < 8; i++) {
+		NVIC->ICER[i]=0xFFFFFFFF;
+		NVIC->ICPR[i]=0xFFFFFFFF;
+	}
+  return 0;
+}
+
+static uint8_t vtor_config(void)
+{
+  /* Vector Table Relocation in Internal QSPI_FLASH */
+	SCB->VTOR = QSPI_BASE;
+  return 0;
+}
 
 /* USER CODE END 0 */
 
@@ -68,19 +84,14 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-	for (uint8_t i = 0; i < 8; i++)
-	{
-		NVIC->ICER[i]=0xFFFFFFFF;
-		NVIC->ICPR[i]=0xFFFFFFFF;
-	}
-	SCB->VTOR = QSPI_BASE;
+  clear_nvic();
+  vtor_config();
 	__enable_irq();
 	__set_PRIMASK(0);
-  
   /* USER CODE END 1 */
 
   /* MPU Configuration--------------------------------------------------------*/
-  MPU_Config();
+  // MPU_Config();
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -114,9 +125,9 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    printf("Systerm Running!\r\n");
+    printf(">Systerm Running...\r\n");
     HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
-    HAL_Delay(50);
+    HAL_Delay(500);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
