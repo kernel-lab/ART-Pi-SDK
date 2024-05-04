@@ -96,7 +96,7 @@ void tx_main_thread_entry(ULONG thread_input)
   /* USER CODE BEGIN tx_main_thread_entry */
   while (1)
   {
-    printf("Threadx Systerm Runing...\r\n");
+    printf("Threadx Application Runing...\r\n");
     tx_thread_sleep(200);
   }
 

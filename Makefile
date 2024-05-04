@@ -38,12 +38,10 @@ BUILD_DIR = build
 C_SOURCES =  \
 kernel/Core/Src/main.c \
 kernel/Core/Src/gpio.c \
-kernel/Core/Src/app_threadx.c \
 kernel/Core/Src/usart.c \
 kernel/Core/Src/stm32h7xx_it.c \
 kernel/Core/Src/stm32h7xx_hal_msp.c \
 kernel/Core/Src/stm32h7xx_hal_timebase_tim.c \
-kernel/AZURE_RTOS/App/app_azure_rtos.c \
 kernel/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c \
 kernel/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c \
 kernel/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c \
@@ -222,7 +220,9 @@ kernel/Middlewares/ST/threadx/common/src/txe_timer_deactivate.c \
 kernel/Middlewares/ST/threadx/common/src/txe_timer_delete.c \
 kernel/Middlewares/ST/threadx/common/src/txe_timer_info_get.c \
 kernel/Core/Src/sysmem.c \
-kernel/Core/Src/syscalls.c  
+kernel/Core/Src/syscalls.c \
+applications/app_threadx.c \
+applications/app_azure_rtos.c
 
 # ASM sources
 ASM_SOURCES =  \
@@ -301,7 +301,8 @@ C_INCLUDES =  \
 -Ikernel/Drivers/CMSIS/Device/ST/STM32H7xx/Include \
 -Ikernel/Drivers/CMSIS/Include \
 -Ikernel/Middlewares/ST/threadx/common/inc/ \
--Ikernel/Middlewares/ST/threadx/ports/cortex_m7/gnu/inc/
+-Ikernel/Middlewares/ST/threadx/ports/cortex_m7/gnu/inc/ \
+-Iapplications
 
 
 # compile gcc flags
