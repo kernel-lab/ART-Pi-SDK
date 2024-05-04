@@ -116,7 +116,7 @@ int main(void)
 
   /* USER CODE END 2 */
 
-  // MX_ThreadX_Init();
+  MX_ThreadX_Init();
 
   /* We should never get here as control is now taken by the scheduler */
 
@@ -125,9 +125,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    printf(">Systerm Running...\r\n");
-    HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
-    HAL_Delay(500);
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

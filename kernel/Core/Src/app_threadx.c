@@ -94,7 +94,12 @@ UINT App_ThreadX_Init(VOID *memory_ptr)
 void tx_main_thread_entry(ULONG thread_input)
 {
   /* USER CODE BEGIN tx_main_thread_entry */
-  printf("Systerm Runing...\r\n");
+  while (1)
+  {
+    printf("Threadx Systerm Runing...\r\n");
+    tx_thread_sleep(200);
+  }
+
   /* USER CODE END tx_main_thread_entry */
 }
 
