@@ -31,6 +31,9 @@ OPT = -Og
 # Build path
 BUILD_DIR = build
 
+# Include path
+include platform/platform.mk
+
 ######################################
 # source
 ######################################
@@ -224,6 +227,9 @@ kernel/Core/Src/syscalls.c \
 applications/app_threadx.c \
 applications/app_azure_rtos.c
 
+# platform sources
+C_SOURCES += $(PLATFORM_C_SOURCES)
+
 # ASM sources
 ASM_SOURCES =  \
 kernel/startup_stm32h750xx.s
@@ -304,6 +310,9 @@ C_INCLUDES =  \
 -Ikernel/Middlewares/ST/threadx/ports/cortex_m7/gnu/inc/ \
 -Iapplications
 
+# platform includes
+C_INCLUDES += $(PLATFORM_C_INCLUDES)
+
 
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
@@ -329,6 +338,13 @@ LDSCRIPT = kernel/STM32H750XBHx_FLASH.ld
 LIBS = -lc -lm -lnosys 
 LIBDIR = 
 LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
+
+# debug printf
+print-c-sources:  
+	@echo "C_SOURCES = $(C_SOURCES)" 
+
+print-include:
+	@echo "C_INCLUDES = $(C_INCLUDES)" 
 
 # default action: build all
 all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
