@@ -15,6 +15,10 @@
 ######################################
 TARGET = ART_Pi-bootloader
 
+######################################
+# SDK path
+######################################
+SDK_PATH = ../
 
 ######################################
 # building variables
@@ -36,35 +40,35 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
-Core/Src/gpio.c \
-Core/Src/quadspi.c \
-Core/Src/usart.c \
-Core/Src/stm32h7xx_it.c \
-Core/Src/stm32h7xx_hal_msp.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_qspi.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c \
-Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c \
-Core/Src/system_stm32h7xx.c \
-Core/Src/sysmem.c \
-Core/Src/syscalls.c  
+booting/Src/gpio.c \
+booting/Src/quadspi.c \
+booting/Src/usart.c \
+booting/Src/stm32h7xx_it.c \
+booting/Src/stm32h7xx_hal_msp.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_qspi.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c \
+$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c \
+booting/Src/system_stm32h7xx.c \
+booting/Src/sysmem.c \
+booting/Src/syscalls.c
 
 # ASM sources
 ASM_SOURCES =  \
@@ -75,8 +79,8 @@ ASMM_SOURCES =
 
 # CPP sources
 CPP_SOURCES = \
-Core/Src/main.cpp \
-Drivers/BSP/Src/w25q64.cpp \
+booting/Src/main.cpp \
+driver/Src/w25q64.cpp \
 
 #######################################
 # binaries
@@ -130,12 +134,12 @@ AS_INCLUDES =
 
 # C includes
 C_INCLUDES =  \
--ICore/Inc \
--IDrivers/STM32H7xx_HAL_Driver/Inc \
--IDrivers/STM32H7xx_HAL_Driver/Inc/Legacy \
--IDrivers/CMSIS/Device/ST/STM32H7xx/Include \
--IDrivers/CMSIS/Include \
--IDrivers/BSP/Inc
+-Ibooting/Inc \
+-I$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Inc \
+-I$(SDK_PATH)/platform/hal/STM32H7xx_HAL_Driver/Inc/Legacy \
+-I$(SDK_PATH)/platform/hal/CMSIS/Device/ST/STM32H7xx/Include \
+-I$(SDK_PATH)/platform/hal/CMSIS/Include \
+-Idriver/Inc
 
 
 # compile gcc flags
